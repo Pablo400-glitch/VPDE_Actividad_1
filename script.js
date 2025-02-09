@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     function createBoard() {
         player.textContent = "Turno del Jugador 1 - X";
+        player.style.color = "blue";
         for (let i = 0; i < 9; i++) {
             let cell = document.createElement("div");
             cell.classList.add("cell");
@@ -19,19 +20,23 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleCellClick(event) {
         let cell = event.target;
         let index = cell.dataset.index;
+        let player = document.getElementById("player");
+    
         if (!cell.textContent && !checkWinner()) {
             cell.textContent = currentPlayer;
             boardState[index] = currentPlayer;
             if (checkWinner()) {
-                setTimeout(() => alert(`${currentPlayer === "X" ? "Jugador 1" : "Jugador 2"} gana!`), 10);
-                location.reload();
+                player.textContent = `${currentPlayer === "X" ? "Jugador 1" : "Jugador 2"} gana!`;
+                player.style.display = "block";
+                player.style.color = "green";
+                setTimeout(() => {location.reload();}, 3000);
             } else {
                 currentPlayer = currentPlayer === "X" ? "O" : "X";
+                player.textContent = "Turno del ";
+                player.textContent += currentPlayer === "X" ? "Jugador 1 - X" : "Jugador 2 - O";
+                player.style.color = currentPlayer === "X" ? "blue" : "red";
             }
         }
-        let player = document.getElementById("player");
-        player.textContent = "Turno del "
-        player.textContent +=  currentPlayer === "X" ? "Jugador 1 - X" : "Jugador 2 - O";
     }
 
     function checkWinner() {
